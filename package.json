@@ -1,0 +1,24 @@
+{
+  "name": "licofast-landing-page",
+  "version": "1.0.0",
+  "description": "LicoFast - Plataforma E-commerce y Sistema de Gestión para Licorerías",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -s . -l 3000",
+    "dev": "npx serve -s . -l 3000"
+  },
+  "keywords": [
+    "licofast",
+    "ecommerce",
+    "licoreria",
+    "delivery",
+    "bolivia",
+    "pos",
+    "inventario"
+  ],
+  "author": "LicoFast Team",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}

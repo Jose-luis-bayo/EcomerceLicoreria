@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LicoFast | Tu Licorería Digital en Minutos • Delivery 24/7 & Sistema para Negocios</title>
+  
+  <!-- SEO & Social Open Graph for Facebook/Instagram Campaigns -->
+  <meta name="description" content="Pide tus licores favoritos en minutos con LicoFast. Whiskies, vodkas, rones, cervezas heladas y combos fiesteros en Bolivia. Delivery express <30 min y sistema de gestión para licorerías.">
+  <meta name="keywords" content="licoreria, delivery licores bolivia, comprar cerveza bolivia, combos fernet, licofast, pos licoreria, inventario bebidas">
+  <meta property="og:title" content="LicoFast | Licores Helados en Minutos a la Puerta de tu Fiesta">
+  <meta property="og:description" content="Whiskies, vodkas, combos y cervezas heladas en menos de 30 min. Paga con QR o Efectivo. ¡Pide ahora!">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="imagenes/nick-rickert-TUZva3dfRv4-unsplash.jpg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#07090e',
+              card: '#101522',
+              purple: '#a855f7',
+              neon: '#c084fc',
+              amber: '#f59e0b',
+              gold: '#fbbf24'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-[#07090e] text-gray-100 min-h-screen flex flex-col selection:bg-purple-600 selection:text-white">
+
+  <!-- 1. TOP ANNOUNCEMENT BANNER -->
+  <div class="bg-gradient-to-r from-purple-900/60 via-amber-900/40 to-purple-900/60 border-b border-purple-500/20 py-2 px-4 text-center text-xs font-medium text-amber-200 flex items-center justify-center gap-2">
+    <span class="inline-block animate-pulse">⚡</span>
+    <span><strong>DELIVERY EXPRESS:</strong> Entregas en menos de 30 minutos | <strong>Envío GRATIS</strong> en compras mayores a Bs. 150</span>
+    <span class="hidden md:inline text-purple-300">| 🍾 Cobertura Urbana Garantizada</span>
+  </div>
+
+  <!-- 2. HEADER / NAVBAR -->
+  <header class="sticky top-0 z-40 bg-[#07090e]/90 backdrop-blur-xl border-b border-white/10 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="#inicio" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-amber-500 p-0.5 shadow-lg shadow-purple-900/40 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-[#090d16] rounded-[10px] flex items-center justify-center">
+            <span class="text-2xl">🍾</span>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-2xl font-black tracking-tight text-white font-display">Lico<span class="text-gradient-gold">Fast</span></span>
+            <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold uppercase bg-amber-500/20 border border-amber-500/40 text-amber-400">Express</span>
+          </div>
+          <span class="text-[10px] text-gray-400 font-medium tracking-wide block -mt-1">Licorería Digital & Sistema</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
+        <a href="#inicio" class="hover:text-amber-400 transition">Inicio</a>
+        <a href="#catalogo" class="hover:text-amber-400 transition">Catálogo Destacado</a>
+        <a href="#beneficios" class="hover:text-amber-400 transition">Por Qué Elegirnos</a>
+        <a href="#sistema-admin" class="hover:text-purple-400 transition flex items-center gap-1.5 text-purple-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Para Negocios (Admin)</span>
+        </a>
+        <a href="#contacto" class="hover:text-amber-400 transition">Contacto</a>
+      </nav>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-3">
+        <!-- Floating Cart Trigger Button in Navbar -->
+        <button 
+          id="nav-cart-btn"
+          onclick="openCartDrawer()" 
+          class="relative p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 text-gray-200 transition-all flex items-center gap-2"
+          aria-label="Ver Carrito de Compras"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span id="nav-cart-badge" class="px-2 py-0.5 rounded-full text-xs font-bold bg-purple-600 text-white hidden">0</span>
+        </button>
+
+        <!-- Login / Register Buttons -->
+        <button 
+          onclick="openAuthModal('client')" 
+          class="hidden sm:inline-flex px-4 py-2 rounded-xl text-xs font-semibold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition"
+        >
+          Iniciar Sesión
+        </button>
+
+        <button 
+          onclick="openAuthModal('client')" 
+          class="btn-shimmer px-4 sm:px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-amber-500 via-orange-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 shadow-lg shadow-amber-500/20 transition-all active:scale-95"
+        >
+          Registrarse
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button 
+          onclick="toggleMobileMenu()" 
+          class="lg:hidden p-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white"
+          aria-label="Abrir Menú"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-[#090d16] border-b border-white/10 px-6 py-5 space-y-4">
+      <a href="#inicio" onclick="toggleMobileMenu()" class="block text-sm font-medium text-gray-300 hover:text-amber-400">Inicio</a>
+      <a href="#catalogo" onclick="toggleMobileMenu()" class="block text-sm font-medium text-gray-300 hover:text-amber-400">Catálogo Destacado</a>
+      <a href="#beneficios" onclick="toggleMobileMenu()" class="block text-sm font-medium text-gray-300 hover:text-amber-400">Beneficios</a>
+      <a href="#sistema-admin" onclick="toggleMobileMenu()" class="block text-sm font-medium text-purple-400">Para Negocios & Administradores</a>
+      <a href="#contacto" onclick="toggleMobileMenu()" class="block text-sm font-medium text-gray-300 hover:text-amber-400">Contacto</a>
+      
+      <div class="pt-4 border-t border-white/10 flex flex-col gap-2.5">
+        <button onclick="openAuthModal('client'); toggleMobileMenu()" class="w-full py-2.5 rounded-xl text-xs font-semibold text-center bg-white/10 text-white">
+          Iniciar Sesión Cliente
+        </button>
+        <button onclick="openAuthModal('admin'); toggleMobileMenu()" class="w-full py-2.5 rounded-xl text-xs font-semibold text-center bg-amber-500/20 border border-amber-500/40 text-amber-300">
+          💼 Acceso Administrador (Caja & Inventario)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. HERO SECTION (HIGH IMPACT) -->
+  <section id="inicio" class="relative pt-10 pb-20 lg:pt-16 lg:pb-32 overflow-hidden">
+    <!-- Background atmospheric glow -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute top-1/3 right-10 w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left Column: Copy & CTAs -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          
+          <!-- Promo Tag -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/60 border border-purple-500/30 text-purple-300 text-xs font-semibold backdrop-blur-md shadow-inner">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span>La Licorería Digital #1 en Bolivia</span>
+            <span class="text-amber-400 font-bold">• 24/7 Express</span>
+          </div>
+
+          <!-- Main Title -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white font-display leading-[1.15]">
+            Tus licores favoritos <br class="hidden sm:inline" />
+            en <span class="text-gradient-brand">minutos</span> en la puerta de tu fiesta
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+            Pide whiskies, vodkas, fernet, cervezas heladas y mixers sin salir de casa. Y si tienes una licorería, 
+            <strong class="text-amber-300 font-semibold">digitaliza tu inventario, caja de cobro y ventas</strong> en tiempo récord con LicoFast.
+          </p>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            <!-- Client Primary CTA -->
+            <a 
+              href="#catalogo" 
+              class="btn-shimmer w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-white font-bold text-sm tracking-wide shadow-xl shadow-amber-500/25 flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5 active:scale-95"
+            >
+              <span>Explorar Catálogo / Pedir Ahora</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+
+            <!-- Admin Secondary CTA -->
+            <button 
+              onclick="openAuthModal('admin')" 
+              class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-[#121829] hover:bg-[#1a233b] border border-amber-500/40 hover:border-amber-400 text-amber-300 font-bold text-sm tracking-wide flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-black/40"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              <span>¿Eres administrador? Inicia Sesión</span>
+            </button>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-white/10 text-left">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 font-bold text-lg">
+                ⚡
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">&lt; 30 Minutos</div>
+                <div class="text-[11px] text-gray-400">Delivery Express</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold text-lg">
+                ❄️
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">100% Heladas</div>
+                <div class="text-[11px] text-gray-400">Listas para servir</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-lg">
+                📱
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">Simple QR & Efectivo</div>
+                <div class="text-[11px] text-gray-400">Pago seguro al recibir</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-lg">
+                🛡️
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">Originales 100%</div>
+                <div class="text-[11px] text-gray-400">Botellas con timbre</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Visual Composition with Local Imagery -->
+        <div class="lg:col-span-5 relative">
+          <!-- Main Showcase Visual Card -->
+          <div class="relative rounded-3xl p-3 glass-panel border border-purple-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden">
+            <div class="relative h-[420px] sm:h-[480px] rounded-2xl overflow-hidden bg-black/60">
+              <img 
+                src="imagenes/nick-rickert-TUZva3dfRv4-unsplash.jpg" 
+                alt="LicoFast Barra y Botellas Prémium" 
+                class="w-full h-full object-cover brightness-95 contrast-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#07090e] via-black/20 to-transparent"></div>
+
+              <!-- Top overlay tag -->
+              <div class="absolute top-4 left-4">
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-black/70 border border-white/20 text-white backdrop-blur-md flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>Servicio Activo en tu Zona</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Floating Card 1: Active Delivery Notification -->
+            <div class="absolute -bottom-2 -left-3 sm:-left-6 p-4 rounded-2xl glass-card-amber shadow-2xl max-w-xs animate-float">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 text-xl flex-shrink-0">
+                  🛵
+                </div>
+                <div>
+                  <div class="text-[11px] font-semibold text-amber-400 uppercase tracking-wider">Pedido Express en Ruta</div>
+                  <div class="text-xs font-bold text-white">Combo Fernet + Coca Cola 2L</div>
+                  <div class="text-[10px] text-gray-300">Llegando en <strong class="text-emerald-400">12 min</strong> • Bs. 135</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Card 2: Admin System Badge -->
+            <div class="absolute -top-3 -right-3 sm:-right-6 p-3.5 rounded-2xl glass-panel border border-purple-500/40 shadow-2xl max-w-[240px] animate-float-delayed">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 text-lg flex-shrink-0">
+                  📊
+                </div>
+                <div>
+                  <div class="text-[10px] font-bold text-purple-400 uppercase">LicoFast Admin POS</div>
+                  <div class="text-xs font-extrabold text-white">Stock & Caja Sincronizados</div>
+                  <div class="text-[10px] text-emerald-400 font-semibold">+Bs. 3,480 en ventas hoy</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. BANNER BAR: REAL-TIME SEARCH & QUICK CATEGORIES -->
+  <section class="border-y border-white/10 bg-[#090d16]/80 backdrop-blur-md py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+      
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-white font-display flex items-center gap-2">
+            <span>🔥</span>
+            <span>Explora Nuestro Catálogo Express</span>
+          </h2>
+          <p class="text-xs text-gray-400">Precios transparentes en Bolivianos (Bs.) y stock verificado en tiempo real</p>
+        </div>
+
+        <!-- Live Search Input -->
+        <div class="w-full md:w-80 relative">
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Buscar whisky, fernet, vodka, cerveza..." 
+            class="w-full glass-input rounded-xl px-4 py-2.5 pl-10 text-xs text-white placeholder-gray-400"
+          />
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 absolute left-3.5 top-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <button data-category="todos" class="cat-pill px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-purple-600 text-white border border-purple-400 shadow-md">
+          🔥 Todos los Licores
+        </button>
+        <button data-category="combos" class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10">
+          🎉 Packs & Combos Fiesteros
+        </button>
+        <button data-category="destilados" class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10">
+          🥃 Whiskies, Vodka & Gin
+        </button>
+        <button data-category="cervezas" class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10">
+          🍺 Cervezas Heladas & Vinos
+        </button>
+        <button data-category="mixers" class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10">
+          🧊 Gaseosas, Energizantes & Hielo
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. FEATURED PRODUCTS CATALOG -->
+  <section id="catalogo" class="py-16 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Selección Nocturna</span>
+          <h2 class="text-3xl font-black text-white font-display">Licores y Promociones Destacadas</h2>
+        </div>
+        <div class="hidden sm:flex items-center gap-2 text-xs text-gray-400">
+          <span>Precios en <strong>Bolivianos (Bs.)</strong></span>
+          <span>•</span>
+          <span class="text-emerald-400 font-semibold">Stock Disponible</span>
+        </div>
+      </div>
+
+      <!-- Dynamic Product Cards Grid -->
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. VALUE PROPOSITION: POR QUÉ ELEGIR LICOFAST (CLIENTES & ADMINISTRADORES) -->
+  <section id="beneficios" class="py-20 bg-gradient-to-b from-[#090d16] via-[#0d1222] to-[#07090e] border-y border-white/10 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 border border-amber-500/30 text-amber-400 uppercase tracking-wider">
+          La Ventaja LicoFast
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-black text-white font-display">
+          Una plataforma creada tanto para <span class="text-gradient-brand">quien celebra</span> como para <span class="text-gradient-purple">quien gestiona</span>
+        </h2>
+        <p class="text-sm sm:text-base text-gray-400">
+          Combinamos la velocidad del delivery nocturno con el poder de un sistema POS e inventario moderno para licorerías.
+        </p>
+      </div>
+
+      <!-- Dual Benefits Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Column A: Para Clientes Finales -->
+        <div class="glass-panel rounded-3xl p-8 border border-amber-500/20 relative group hover:border-amber-500/40 transition-all duration-300">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl text-amber-400">
+              🎉
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white font-display">Para Clientes Finales</h3>
+              <p class="text-xs text-amber-400 font-medium">Comodidad, rapidez y la mejor fiesta sin pausas</p>
+            </div>
+          </div>
+
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+                ⚡
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-0.5">Entregas Ultra Rápidas (&lt; 30 min)</h4>
+                <p class="text-xs text-gray-400">Despacho inmediato desde la sucursal más cercana a tu ubicación. Olvídate de salir a medianoche.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+                ❄️
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-0.5">Cadena de Frío Garantizada</h4>
+                <p class="text-xs text-gray-400">Tus cervezas, vodkas y mixers viajan en mochilas térmicas para llegar a temperatura perfecta de consumo.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+                💳
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-0.5">Pagos Flexibles: QR Simple o Efectivo</h4>
+                <p class="text-xs text-gray-400">Paga con Simple QR desde cualquier banco nacional (BNB, BCP, Banco Unión, Mercantil), Tigo Money o efectivo con cambio exacto.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+                📲
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-0.5">Atención Directa por WhatsApp</h4>
+                <p class="text-xs text-gray-400">Haz tu pedido web y confírmalo directamente en WhatsApp con un solo click. Seguimiento en tiempo real.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-white/5">
+            <a href="#catalogo" class="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1.5 transition">
+              <span>Ver catálogo y pedir ahora</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column B: Para Administradores / Dueños de Licorería -->
+        <div class="glass-panel rounded-3xl p-8 border border-purple-500/20 relative group hover:border-purple-500/40 transition-all duration-300">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-2xl text-purple-400">
+              💼
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white font-display">Para Administradores & Negocios</h3>
+              <p class="text-xs text-purple-400 font-medium">Digitalización completa de inventarios, POS y caja</p>
+            </div>
+          </div>
+
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+                📦
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-0.5">Control Total de Inventario en Tiempo Real</h4>
+                <p class="text-xs text-gray-400">Sincroniza tus botellas entre ventas en mostrador y pedidos online. Notificaciones automáticas de stock bajo.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+                💻
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-0.5">Punto de Venta (POS) y Caja de Cobro Ágil</h4>
+                <p class="text-xs text-gray-400">Cobra rápido a los clientes de tu tienda física, emite tickets, gestiona arqueos de caja y cortes de turno sin errores.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+                📈
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-0.5">Métricas de Ventas e Ingresos Diarios</h4>
+                <p class="text-xs text-gray-400">Visualiza en gráficos tus licores más vendidos, horas pico de demanda y margen de ganancia neta.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+                🌐
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white mb-0.5">Tu Propio Canal E-Commerce sin 30% de Comisión</h4>
+                <p class="text-xs text-gray-400">Deja de regalar tus ganancias a aplicaciones de delivery masivas. LicoFast te entrega tu tienda digital directa.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
+            <button onclick="openAdminDemoModal()" class="text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1.5 transition">
+              <span>Probar Demo Administrativa en vivo</span>
+              <span>→</span>
+            </button>
+            <span class="text-[10px] text-gray-500 uppercase tracking-widest font-semibold">Módulo POS Activo</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. SECTION: DEMO & CALL TO ACTION PARA ADMINISTRADORES / NEGOCIOS -->
+  <section id="sistema-admin" class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="rounded-3xl glass-panel border border-purple-500/30 p-8 sm:p-12 relative overflow-hidden bg-gradient-to-r from-[#0d1326] via-[#101730] to-[#0b0f1d]">
+        <!-- Glow element -->
+        <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-purple-600/15 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Sistema POS e Inventario para Licorerías</span>
+            </div>
+            
+            <h2 class="text-2xl sm:text-4xl font-black text-white font-display">
+              ¿Administras una licorería física? <br class="hidden sm:inline" />
+              <span class="text-gradient-purple">Digitaliza tu negocio y multiplica tus ventas</span>
+            </h2>
+            
+            <p class="text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
+              LicoFast te entrega el control total: sincroniza el inventario de tus estantes en tiempo real con la tienda web, 
+              controla los turnos de caja en tu mostrador y despacha pedidos nocturnos de manera automática.
+            </p>
+
+            <div class="pt-2 flex flex-wrap gap-4 items-center">
+              <button 
+                onclick="openAdminDemoModal()" 
+                class="btn-shimmer px-6 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs tracking-wider uppercase shadow-lg shadow-purple-900/40 transition flex items-center gap-2"
+              >
+                <span>Explorar Panel Admin (Demo)</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </button>
+
+              <button 
+                onclick="openAuthModal('admin')" 
+                class="px-6 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-xs tracking-wide transition"
+              >
+                Ingreso al Panel de Control
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 bg-black/40 rounded-2xl p-5 border border-white/10 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+              <span class="text-xs font-bold text-gray-300">Métricas en Vivo (Mockup)</span>
+              <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Online</span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="p-3 rounded-xl bg-white/5 flex items-center justify-between">
+                <div>
+                  <div class="text-[11px] text-gray-400">Ventas Hoy (Caja + Web)</div>
+                  <div class="text-lg font-black text-amber-400">Bs. 3,480.00</div>
+                </div>
+                <span class="text-xs text-emerald-400 font-bold">+24% vs ayer</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-white/5 flex items-center justify-between">
+                <div>
+                  <div class="text-[11px] text-gray-400">Pedidos Activos en Ruta</div>
+                  <div class="text-lg font-black text-white">4 Pedidos</div>
+                </div>
+                <span class="text-xs text-purple-400 font-bold">Tiempo prom: 19 min</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-white/5 flex items-center justify-between">
+                <div>
+                  <div class="text-[11px] text-gray-400">Alerta de Stock Mínimo</div>
+                  <div class="text-xs font-semibold text-rose-300">Fernet Branca (4 uds)</div>
+                </div>
+                <span class="text-[10px] bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded font-bold">Reponer</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8. SOCIAL PROOF / TESTIMONIOS -->
+  <section class="py-16 bg-[#090d16] border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-xl mx-auto mb-12">
+        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Opiniones Reales</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white font-display mt-1">La Comunidad LicoFast</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Review 1 -->
+        <div class="glass-panel rounded-2xl p-6 border border-white/5">
+          <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+            ★★★★★
+          </div>
+          <p class="text-xs text-gray-300 mb-4 leading-relaxed">
+            "Nos salvaron la previa del sábado a las 2:00 AM. El combo de Fernet con Coca-Cola llegó helado y en menos de 20 minutos a Sopocachi. Muy recomendado."
+          </p>
+          <div class="flex items-center gap-3 pt-3 border-t border-white/5">
+            <div class="w-8 h-8 rounded-full bg-purple-600/30 flex items-center justify-center font-bold text-xs text-purple-300">CM</div>
+            <div>
+              <div class="text-xs font-bold text-white">Carlos Mendoza</div>
+              <div class="text-[10px] text-gray-500">Cliente Frecuente Express</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="glass-panel rounded-2xl p-6 border border-white/5">
+          <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+            ★★★★★
+          </div>
+          <p class="text-xs text-gray-300 mb-4 leading-relaxed">
+            "Digitalizar mi licorería con LicoFast fue la mejor decisión. Ahora controlo el stock de mis botellas sin descuadres y recibo pedidos por WhatsApp ordenados."
+          </p>
+          <div class="flex items-center gap-3 pt-3 border-t border-white/5">
+            <div class="w-8 h-8 rounded-full bg-amber-600/30 flex items-center justify-center font-bold text-xs text-amber-300">RG</div>
+            <div>
+              <div class="text-xs font-bold text-white">Roberto Gutiérrez</div>
+              <div class="text-[10px] text-gray-500">Administrador de Licorería</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="glass-panel rounded-2xl p-6 border border-white/5">
+          <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+            ★★★★★
+          </div>
+          <p class="text-xs text-gray-300 mb-4 leading-relaxed">
+            "Poder pagar con Simple QR boliviano en la puerta sin tener que andar buscando cambio ni billetes rotos es un 10 de 10. Las cervezas Huari llegaron heladísimas."
+          </p>
+          <div class="flex items-center gap-3 pt-3 border-t border-white/5">
+            <div class="w-8 h-8 rounded-full bg-emerald-600/30 flex items-center justify-center font-bold text-xs text-emerald-300">VP</div>
+            <div>
+              <div class="text-xs font-bold text-white">Valeria Paredes</div>
+              <div class="text-[10px] text-gray-500">Cliente Verificada</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 9. FOOTER -->
+  <footer id="contacto" class="bg-[#05070a] border-t border-white/10 pt-16 pb-12 text-gray-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        
+        <!-- Col 1: Brand Info -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-purple-600 p-0.5">
+              <div class="w-full h-full bg-[#090d16] rounded-[10px] flex items-center justify-center text-lg">
+                🍾
+              </div>
+            </div>
+            <span class="text-xl font-black text-white font-display">Lico<span class="text-gradient-gold">Fast</span></span>
+          </div>
+
+          <p class="text-xs text-gray-400 leading-relaxed max-w-sm">
+            La plataforma líder de delivery nocturno de licores y sistema de gestión para licorerías en Bolivia. 
+            Bebidas 100% originales, servicio express y digitalización de inventarios.
+          </p>
+
+          <!-- Social Networks Links -->
+          <div class="flex items-center gap-3 pt-2">
+            <!-- Facebook -->
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-blue-600 hover:text-white flex items-center justify-center transition border border-white/10" aria-label="Facebook">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.5 5H18V0h-3.808C10.595 0 9 1.582 9 4.615V8z"/></svg>
+            </a>
+            <!-- Instagram -->
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-pink-600 hover:text-white flex items-center justify-center transition border border-white/10" aria-label="Instagram">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <!-- WhatsApp Direct -->
+            <a href="https://wa.me/59170000000" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition border border-white/10" aria-label="WhatsApp">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Navegación</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="#inicio" class="hover:text-white transition">Inicio</a></li>
+            <li><a href="#catalogo" class="hover:text-white transition">Catálogo de Licores</a></li>
+            <li><a href="#beneficios" class="hover:text-white transition">Beneficios de la Plataforma</a></li>
+            <li><a href="#sistema-admin" class="hover:text-white transition">Sistema para Licorerías</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Para Negocios -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Para Negocios</h4>
+          <ul class="space-y-2 text-xs">
+            <li><button onclick="openAuthModal('admin')" class="hover:text-amber-400 transition text-left">Login Administrador</button></li>
+            <li><button onclick="openAdminDemoModal()" class="hover:text-amber-400 transition text-left">Probar Demo POS & Stock</button></li>
+            <li><a href="https://wa.me/59170000000?text=Hola%20deseo%20afiliar%20mi%20licorer%C3%ADa%20a%20LicoFast" class="hover:text-white transition">Afiliar mi Licorería</a></li>
+            <li><a href="#" class="hover:text-white transition">Planes & Comisiones 0%</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Horarios & Cobertura -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Atención Express</h4>
+          <ul class="space-y-2 text-xs">
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400">●</span>
+              <span>Lun a Dom: 18:00 a 04:00 AM</span>
+            </li>
+            <li>Soporte: +591 700-00000</li>
+            <li>Cobertura: Zona Sur, Centro, Equipetrol, Miraflores, Sopocachi</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Legal Warning Ley 259 Bolivia & Copyright -->
+      <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <div class="text-[11px] text-gray-500 max-w-xl">
+          ⚖️ <strong class="text-gray-400">Ley N° 259 de Control al Expendio y Consumo de Bebidas Alcohólicas:</strong> 
+          El consumo excesivo de alcohol es perjudicial para la salud. Venta estrictamente prohibida a menores de 18 años de edad.
+        </div>
+
+        <div class="text-[11px] text-gray-500">
+          © 2026 <strong>LicoFast</strong>. Todos los derechos reservados. Desarrollado para alta conversión.
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       10. FLOATING CART BADGE & BUTTON (CORNER)
+       ========================================== -->
+  <div 
+    id="floating-cart-btn" 
+    class="fixed bottom-6 right-6 z-40 translate-y-24 opacity-0 transition-all duration-300 pointer-events-auto"
+  >
+    <button 
+      onclick="openCartDrawer()" 
+      class="btn-shimmer flex items-center gap-3 px-5 py-3.5 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-purple-600 text-white font-bold shadow-2xl shadow-amber-500/30 border border-amber-300/30 active:scale-95 transition"
+    >
+      <div class="relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <span id="float-cart-badge" class="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-black text-amber-400 font-extrabold text-[11px] flex items-center justify-center border border-amber-400">0</span>
+      </div>
+      <div class="text-left text-xs">
+        <div class="text-[10px] text-amber-100 uppercase tracking-wider font-semibold">Tu Pedido</div>
+        <div id="float-cart-total" class="font-extrabold text-white text-sm">Bs. 0</div>
+      </div>
+    </button>
+  </div>
+
+  <!-- ==========================================
+       11. SHOPPING CART SLIDE-OVER DRAWER
+       ========================================== -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none cart-drawer-backdrop bg-black/75 backdrop-blur-sm">
+    <div 
+      id="cart-drawer-panel" 
+      class="absolute top-0 right-0 w-full max-w-md h-full bg-[#0b0f19] border-l border-white/10 flex flex-col shadow-2xl cart-drawer-panel"
+    >
+      <!-- Drawer Header -->
+      <div class="p-5 border-b border-white/10 flex items-center justify-between bg-black/20">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+            🛒
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white font-display">Carrito de Compras</h3>
+            <p class="text-[11px] text-gray-400">Despacho Express LicoFast</p>
+          </div>
+        </div>
+        <button onclick="closeCartDrawer()" class="p-1.5 rounded-lg text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Free Delivery Promo Ribbon -->
+      <div id="cart-delivery-promo" class="p-3 bg-purple-950/40 border-b border-purple-500/20 text-center">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Drawer Items List -->
+      <div class="flex-1 overflow-y-auto p-5 space-y-3">
+        <div id="cart-empty-state" class="py-16 text-center space-y-3 hidden">
+          <div class="w-16 h-16 mx-auto rounded-full bg-white/5 flex items-center justify-center text-3xl">🍾</div>
+          <h4 class="text-sm font-bold text-white">Tu carrito está vacío</h4>
+          <p class="text-xs text-gray-400 max-w-xs mx-auto">Agrega tus licores favoritos o combos fiesteros para iniciar tu pedido express.</p>
+          <button onclick="closeCartDrawer()" class="px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-semibold hover:bg-purple-500 transition">
+            Explorar Catálogo
+          </button>
+        </div>
+
+        <div id="cart-items-container" class="space-y-3">
+          <!-- Item elements generated via JS -->
+        </div>
+      </div>
+
+      <!-- Drawer Footer & Checkout -->
+      <div id="cart-footer" class="p-5 border-t border-white/10 bg-black/40 space-y-4">
+        <!-- Quick Checkout Details -->
+        <div class="space-y-2">
+          <input 
+            type="text" 
+            id="checkout-address" 
+            placeholder="📍 Dirección de entrega (Ej: Sopocachi, Av. 20 de Octubre #402)" 
+            class="w-full glass-input rounded-xl px-3 py-2 text-xs placeholder-gray-500"
+          />
+
+          <div class="grid grid-cols-2 gap-2">
+            <select id="checkout-payment" class="glass-input rounded-xl px-3 py-2 text-xs bg-[#0b0f19]">
+              <option value="Pago con QR Simple (Bolivia)">📱 Pago con QR Simple</option>
+              <option value="Efectivo contra Entrega">💵 Efectivo al Recibir</option>
+              <option value="Tigo Money">📲 Tigo Money</option>
+              <option value="Tarjeta de Débito/Crédito">💳 Tarjeta POS</option>
+            </select>
+            <input 
+              type="text" 
+              id="checkout-notes" 
+              placeholder="Notas (Ej: con cambio de Bs 200)" 
+              class="glass-input rounded-xl px-3 py-2 text-xs placeholder-gray-500"
+            />
+          </div>
+        </div>
+
+        <!-- Totals Breakdown -->
+        <div class="space-y-1.5 text-xs pt-2 border-t border-white/10">
+          <div class="flex justify-between text-gray-400">
+            <span>Subtotal:</span>
+            <span id="cart-subtotal" class="font-semibold text-white">Bs. 0</span>
+          </div>
+          <div class="flex justify-between text-gray-400">
+            <span>Costo de Envío:</span>
+            <span id="cart-delivery" class="font-semibold text-white">Bs. 15</span>
+          </div>
+          <div class="flex justify-between text-sm font-bold text-white pt-1 border-t border-white/5">
+            <span>Total a Pagar:</span>
+            <span id="cart-total" class="text-base font-extrabold text-amber-400">Bs. 0</span>
+          </div>
+        </div>
+
+        <!-- Primary WhatsApp Checkout Button -->
+        <button 
+          onclick="checkoutViaWhatsApp()" 
+          class="btn-shimmer w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs tracking-wider uppercase shadow-xl shadow-emerald-900/30 flex items-center justify-center gap-2 transition active:scale-95"
+        >
+          <span>Completar Pedido por WhatsApp</span>
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        </button>
+
+        <div class="text-[10px] text-center text-gray-500">
+          🔒 Compra 100% segura • Pago contra entrega o QR directo
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       12. MODAL DUAL: LOGIN / REGISTRO (CLIENTE & ADMIN)
+       ========================================== -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay bg-black/80 backdrop-blur-md">
+    <div class="w-full max-w-md bg-[#0e1424] border border-white/10 rounded-3xl p-6 sm:p-8 modal-content shadow-2xl relative">
+      
+      <!-- Close Button -->
+      <button onclick="closeAuthModal()" class="absolute top-5 right-5 p-1 rounded-lg text-gray-400 hover:text-white bg-white/5 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Modal Tabs Header -->
+      <div class="flex items-center gap-2 p-1 rounded-2xl bg-black/40 border border-white/10 mb-6">
+        <button 
+          id="tab-btn-client" 
+          onclick="switchAuthTab('client')" 
+          class="flex-1 py-2 text-xs font-bold rounded-xl transition text-white border-b-2 border-purple-500 bg-white/10"
+        >
+          👤 Acceso Clientes
+        </button>
+        <button 
+          id="tab-btn-admin" 
+          onclick="switchAuthTab('admin')" 
+          class="flex-1 py-2 text-xs font-bold rounded-xl transition text-gray-400 border-transparent hover:text-white"
+        >
+          💼 Administradores / POS
+        </button>
+      </div>
+
+      <!-- FORM A: ACCESO CLIENTES -->
+      <form id="auth-form-client" onsubmit="handleClientLogin(event)" class="space-y-4">
+        <div>
+          <h3 class="text-lg font-bold text-white font-display">Bienvenido a LicoFast</h3>
+          <p class="text-xs text-gray-400">Guarda tus direcciones y acumula descuentos en cada pedido nocturno.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Número de Celular (Bolivia)</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-2.5 text-xs text-gray-400 font-bold">+591</span>
+            <input 
+              type="tel" 
+              id="client-phone" 
+              required 
+              placeholder="70012345" 
+              class="w-full glass-input rounded-xl py-2.5 pl-14 pr-4 text-xs font-medium"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Nombre Completo</label>
+          <input 
+            type="text" 
+            placeholder="Ej: Marcelo Vargas" 
+            class="w-full glass-input rounded-xl px-4 py-2.5 text-xs font-medium"
+          />
+        </div>
+
+        <div class="flex items-center gap-2 text-xs text-gray-400 pt-1">
+          <input type="checkbox" id="client-remember" checked class="rounded bg-black border-white/20 text-purple-600 focus:ring-0">
+          <label for="client-remember">Recordar mi sesión en este dispositivo</label>
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn-shimmer w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-900/40 transition"
+        >
+          Ingresar / Guardar Carrito
+        </button>
+
+        <p class="text-[11px] text-center text-gray-500">
+          ¿No quieres registrarte ahora? Puedes pedir directamente con el botón de WhatsApp.
+        </p>
+      </form>
+
+      <!-- FORM B: ACCESO ADMINISTRADORES & PERSONAL -->
+      <form id="auth-form-admin" onsubmit="handleAdminLogin(event)" class="space-y-4 hidden">
+        <div>
+          <div class="inline-block px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30 mb-1">
+            Panel de Gestión
+          </div>
+          <h3 class="text-lg font-bold text-white font-display">Portal de Licorería & Caja POS</h3>
+          <p class="text-xs text-gray-400">Ingreso exclusivo para propietarios, administradores y cajeros.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Código de Sucursal o Usuario</label>
+          <input 
+            type="text" 
+            required 
+            placeholder="admin@licofast.bo o SUCURSAL-01" 
+            class="w-full glass-input rounded-xl px-4 py-2.5 text-xs font-medium"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Contraseña de Seguridad</label>
+          <input 
+            type="password" 
+            required 
+            placeholder="••••••••••••" 
+            class="w-full glass-input rounded-xl px-4 py-2.5 text-xs font-medium"
+          />
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn-shimmer w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-900/40 transition"
+        >
+          Acceder al Sistema Admin
+        </button>
+
+        <!-- Quick Demo Button for Prospects from Facebook/Instagram Ads -->
+        <div class="pt-2 border-t border-white/10 text-center">
+          <div class="text-[11px] text-gray-400 mb-2">¿Estás conociendo la plataforma para tu negocio?</div>
+          <button 
+            type="button" 
+            onclick="closeAuthModal(); openAdminDemoModal()" 
+            class="w-full py-2.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 text-xs font-bold transition flex items-center justify-center gap-1.5"
+          >
+            <span>⚡ Probar Demo Administrativa Interactiva</span>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       13. MODAL: LIVE ADMIN SYSTEM SIMULATOR (WOW FACTOR)
+       ========================================== -->
+  <div id="admin-demo-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay bg-black/85 backdrop-blur-md">
+    <div class="w-full max-w-4xl bg-[#0c101c] border border-purple-500/40 rounded-3xl p-6 sm:p-8 modal-content shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-lg">
+            💻
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-lg font-bold text-white font-display">LicoFast Admin System • Sucursal Central</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">En Línea</span>
+            </div>
+            <p class="text-xs text-gray-400">Punto de Venta (POS), Control de Caja y Sincronización de Botellas</p>
+          </div>
+        </div>
+
+        <button onclick="closeAdminDemoModal()" class="p-2 rounded-xl text-gray-400 hover:text-white bg-white/5 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+          <div class="text-[11px] text-gray-400">Ventas Registradas Hoy</div>
+          <div id="admin-kpi-revenue" class="text-xl font-black text-amber-400 mt-1">Bs. 3,480</div>
+          <div class="text-[10px] text-emerald-400 mt-0.5">↑ 18% vs semana pasada</div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+          <div class="text-[11px] text-gray-400">Total Transacciones</div>
+          <div id="admin-kpi-orders" class="text-xl font-black text-white mt-1">28</div>
+          <div class="text-[10px] text-purple-400 mt-0.5">22 Web + 6 Mostrador</div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+          <div class="text-[11px] text-gray-400">Botellas en Inventario</div>
+          <div class="text-xl font-black text-white mt-1">1,480 uds</div>
+          <div class="text-[10px] text-gray-400 mt-0.5">142 Licores distintos</div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+          <div class="text-[11px] text-gray-400">Alerta Stock Crítico</div>
+          <div class="text-xl font-black text-rose-400 mt-1">2 Botellas</div>
+          <div class="text-[10px] text-rose-400 mt-0.5">Requieren compra</div>
+        </div>
+      </div>
+
+      <!-- Interactive POS & Inventory Simulation Buttons -->
+      <div class="p-4 rounded-2xl bg-purple-950/20 border border-purple-500/30 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xs font-bold text-white flex items-center gap-1.5">
+            <span>✨</span> <strong>Prueba la interacción en tiempo real:</strong>
+          </div>
+          <div class="text-xs text-gray-300">Haz clic en los botones para simular un cobro en mostrador o reabastecer stock.</div>
+        </div>
+
+        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+          <button 
+            onclick="simulateQuickPosSale()" 
+            class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs tracking-wide transition shadow-md"
+          >
+            💵 Cobrar Combo en Caja (+Bs. 135)
+          </button>
+
+          <button 
+            onclick="simulateStockRestock()" 
+            class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs tracking-wide transition shadow-md"
+          >
+            📦 Reponer Stock (+12 Fernet)
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Mockup Orders & Inventory Table -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Flujo de Pedidos Recientes</h4>
+          <span class="text-[10px] text-gray-400">Sincronizado vía WebSocket</span>
+        </div>
+
+        <div class="rounded-xl border border-white/10 overflow-x-auto">
+          <table class="w-full text-left text-xs text-gray-300">
+            <thead class="bg-black/50 text-gray-400 uppercase text-[10px] border-b border-white/10">
+              <tr>
+                <th class="p-3">Código</th>
+                <th class="p-3">Cliente / Canal</th>
+                <th class="p-3">Items</th>
+                <th class="p-3">Total</th>
+                <th class="p-3">Estado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="p-3 font-mono text-purple-400 font-bold">#LF-8921</td>
+                <td class="p-3 font-semibold text-white">Rodrigo V. (Web WhatsApp)</td>
+                <td class="p-3 text-gray-400">1x Combo Fernet 750ml + Coca Cola 2L</td>
+                <td class="p-3 font-bold text-amber-400">Bs. 135</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 font-semibold">🛵 En Ruta (8 min)</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-purple-400 font-bold">#LF-8920</td>
+                <td class="p-3 font-semibold text-white">Venta Mostrador POS</td>
+                <td class="p-3 text-gray-400">1x Absolut Vodka + 2x Red Bull</td>
+                <td class="p-3 font-bold text-amber-400">Bs. 150</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold">✓ Cobrado en Caja</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-purple-400 font-bold">#LF-8919</td>
+                <td class="p-3 font-semibold text-white">Camila F. (Delivery)</td>
+                <td class="p-3 text-gray-400">1x Johnnie Walker Black Label</td>
+                <td class="p-3 font-bold text-amber-400">Bs. 230</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold">✓ Entregado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Inventory Preview Snippet -->
+        <div class="pt-2 flex items-center justify-between text-xs text-gray-400">
+          <div>
+            Botella de Muestra: <strong class="text-white">Fernet Branca 750ml</strong> — Stock actual: <span id="admin-stock-sample" class="text-amber-400 font-bold">4 botellas</span>
+          </div>
+          <button onclick="closeAdminDemoModal()" class="text-xs text-purple-400 hover:text-purple-300 font-semibold">
+            Cerrar Vista Demo ✕
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       14. AGE VERIFICATION MODAL (LEY 259 BOLIVIA)
+       ========================================== -->
+  <div id="age-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay bg-black/90 backdrop-blur-xl">
+    <div class="w-full max-w-sm bg-[#0a0e1a] border border-amber-500/30 rounded-3xl p-6 sm:p-8 modal-content text-center shadow-2xl space-y-4">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-3xl text-amber-400">
+        🔞
+      </div>
+
+      <h3 class="text-xl font-black text-white font-display">¿Eres mayor de 18 años?</h3>
+      
+      <p class="text-xs text-gray-300 leading-relaxed">
+        LicoFast promueve el consumo responsable de bebidas alcohólicas conforme a la 
+        <strong class="text-amber-300">Ley N° 259 de Bolivia</strong>. Debes tener al menos 18 años para ingresar al catálogo.
+      </p>
+
+      <div class="space-y-2.5 pt-2">
+        <button 
+          onclick="confirmAge(true)" 
+          class="btn-shimmer w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-400 text-white font-bold text-xs uppercase tracking-wider shadow-lg transition"
+        >
+          Sí, soy mayor de 18 años
+        </button>
+
+        <button 
+          onclick="confirmAge(false)" 
+          class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 text-xs font-semibold transition"
+        >
+          No, soy menor de edad (Salir)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       15. TOAST NOTIFICATIONS CONTAINER
+       ========================================== -->
+  <div id="toast-container"></div>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
